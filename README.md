@@ -1,1 +1,1 @@
-# cmpe273-fall16
+Assignments for CMPE 273 - Enterprise Distributed Systems

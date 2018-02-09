@@ -1,0 +1,76 @@
+uday-macbook-pro:cmpe273-lab1 uday$ eval "$(docker-machine env default)"
+uday-macbook-pro:cmpe273-lab1 uday$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+uday-macbook-pro:cmpe273-lab1 uday$ ls -ltr
+total 32
+-rwxrwxrwx  1 uday  staff   14 Aug 31 21:51 README.md
+-rwxrwxrwx  1 uday  staff    6 Aug 31 21:54 requirements.txt
+-rwxrwxrwx  1 uday  staff  191 Aug 31 21:55 app.py
+-rwxrwxrwx  1 uday  staff  158 Aug 31 21:55 Dockerfile
+uday-macbook-pro:cmpe273-lab1 uday$ docker build -t lab1-flask-app:latest .
+Sending build context to Docker daemon  51.2 kB
+Step 1 : FROM python:3.5.2
+3.5.2: Pulling from library/python
+357ea8c3d80b: Pull complete 
+52befadefd24: Pull complete 
+3c0732d5313c: Pull complete 
+855820c72656: Pull complete 
+ef2c3e4d30a0: Pull complete 
+7dcfe1c4947f: Pull complete 
+44e378b46803: Pull complete 
+Digest: sha256:f8788eff91ce813a69c0038865e5334c83e3ac9ad69a92c90a762fe178bfdf91
+Status: Downloaded newer image for python:3.5.2
+ ---> a494acfeb166
+Step 2 : MAINTAINER Your Name "udaykd09@gmail.com"
+ ---> Running in 26cdb38d575d
+ ---> e994f2b87a04
+Removing intermediate container 26cdb38d575d
+Step 3 : COPY . /app
+ ---> 405cd876267d
+Removing intermediate container e8c8e521e4ca
+Step 4 : WORKDIR /app
+ ---> Running in 17d692e542db
+ ---> b044b7f94ce5
+Removing intermediate container 17d692e542db
+Step 5 : RUN pip install -r requirements.txt
+ ---> Running in eac718bfc558
+Collecting flask (from -r requirements.txt (line 1))
+  Downloading Flask-0.11.1-py2.py3-none-any.whl (80kB)
+Collecting itsdangerous>=0.21 (from flask->-r requirements.txt (line 1))
+  Downloading itsdangerous-0.24.tar.gz (46kB)
+Collecting click>=2.0 (from flask->-r requirements.txt (line 1))
+  Downloading click-6.6.tar.gz (283kB)
+Collecting Jinja2>=2.4 (from flask->-r requirements.txt (line 1))
+  Downloading Jinja2-2.8-py2.py3-none-any.whl (263kB)
+Collecting Werkzeug>=0.7 (from flask->-r requirements.txt (line 1))
+  Downloading Werkzeug-0.11.11-py2.py3-none-any.whl (306kB)
+Collecting MarkupSafe (from Jinja2>=2.4->flask->-r requirements.txt (line 1))
+  Downloading MarkupSafe-0.23.tar.gz
+Installing collected packages: itsdangerous, click, MarkupSafe, Jinja2, Werkzeug, flask
+  Running setup.py install for itsdangerous: started
+    Running setup.py install for itsdangerous: finished with status 'done'
+  Running setup.py install for click: started
+    Running setup.py install for click: finished with status 'done'
+  Running setup.py install for MarkupSafe: started
+    Running setup.py install for MarkupSafe: finished with status 'done'
+Successfully installed Jinja2-2.8 MarkupSafe-0.23 Werkzeug-0.11.11 click-6.6 flask-0.11.1 itsdangerous-0.24
+ ---> 61b518fc9e14
+Removing intermediate container eac718bfc558
+Step 6 : ENTRYPOINT python
+ ---> Running in 77ac671f4d3b
+ ---> c38bda1a1e68
+Removing intermediate container 77ac671f4d3b
+Step 7 : CMD app.py
+ ---> Running in 50224e99dcc5
+ ---> 33b41681d95f
+Removing intermediate container 50224e99dcc5
+Successfully built 33b41681d95f
+uday-macbook-pro:cmpe273-lab1 uday$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+lab1-flask-app      latest              33b41681d95f        23 seconds ago      695.8 MB
+python              3.5.2               a494acfeb166        5 days ago          685.3 MB
+uday-macbook-pro:cmpe273-lab1 uday$ docker run -d -p 5000:5000 lab1-flask-app
+c2bfcbd38758ca3f47703bb1672d3c37908685e4a8e1097d398d7ba72b04e732
+uday-macbook-pro:cmpe273-lab1 uday$ docker-machine ls
+NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER    ERRORS
+default   *        virtualbox   Running   tcp://192.168.99.100:2376           v1.12.1   
